@@ -4,6 +4,7 @@
 
 ;; Author: John Louis Del Rosario <john2x@gmail.com>
 ;; URL: https://github.com/john2x/plan9-theme.el
+;; Package-Version: 20180804.1441
 ;; Version: 0.2
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -33,34 +34,39 @@
 ;;; Color Palette
 
 (defvar plan9-colors-alist
-  '(("bg"            . "#FFFFE8")
+  '(("bg"            . "#F5F1E1") ; FFFFE8   ; faff: e5ddd0
     ("bg-alt"        . "#FFFFD8")
-    ("bg-dark"       . "#E5E5D0")
+    ("bg-dark"       . "#E0E0D0")
 
-    ("fg"            . "#424242")
+    ("fg"            . "#090909") ; 424242
     ("fg-alt"        . "#B8B09A")
-    ("fg-alt-dark"   . "#988d6d")
+    ("fg-alt-dark"   . "#877c68") ; 988d6d;
     ("fg-light"      . "#CCCCB7")
 
     ("highlight"     . "#e8eb98")
 
-    ("cyan"          . "#4fa8a8")
-    ("cyan-light"    . "#98ece8")
+    ("gray"          . "darkslategray")  ; darkslategray, bisque4
+    ("gray-light"    . "snow2")
 
-    ("red"           . "#b85c57")
-    ("red-light"     . "#f8e8e8")
+    ("cyan"          . "#008080") ; a bit darker DarkCyan = #008b8b, orgi: #4fa8a8
+    ("cyan-light"    . "#90efef")
 
-    ("yellow"        . "#989848")
+    ("red"           . "firebrick")
+    ("red-light"     . "#f8d2d2")
+
+    ("yellow"        . "#686800") ;; 989848
     ("yellow-light"  . "#f8fce8")
+    ("yellow-gray"   . "lightyellow2")
 
-    ("green"         . "#40883f")
+    ("green"         . "#207010") ;; 40883f
     ("green-light"   . "#e8fce8")
 
-    ("blue"          . "#0287c8")
+    ("blue"          . "DarkBlue") ;; 0287c8
     ("blue-light"    . "#c1e7f8")
 
-    ("purple"        . "#8888c8")
-    ("purple-light"  . "#e7fcf7"))
+    ("purple"        . "purple4")
+    ("purple-light"  . "plum2")
+    ("purple-light2"  . "purple"))
   "List of Plan9 colors.
 Each element has the form (NAME . HEX). ")
 
@@ -132,8 +138,8 @@ Also bind `class' to ((class color) (min-colors 89))."
    `(vertical-border ((t (:foreground ,cyan))))
 ;;;;; font lock
    `(font-lock-builtin-face ((t (:foreground ,fg :weight bold))))
-   `(font-lock-comment-face ((t (:foreground ,green))))
-   `(font-lock-comment-delimiter-face ((t (:foreground ,green))))
+   `(font-lock-comment-face ((t (:foreground ,gray))))
+   `(font-lock-comment-delimiter-face ((t (:foreground ,gray))))
    `(font-lock-constant-face ((t (:foreground ,yellow :weight bold))))
    `(font-lock-doc-face ((t (:foreground ,green))))
    `(font-lock-function-name-face ((t (:foreground ,fg :weight bold))))
@@ -436,6 +442,8 @@ Also bind `class' to ((class color) (min-colors 89))."
    `(lsp-face-highlight-textual ((t (:background ,bg-dark))))
    `(lsp-face-highlight-read ((t (:background ,purple-light))))
    `(lsp-face-highlight-write ((t (:background ,green-light))))
+   `(lsp-ui-sideline-symbol-info ((t (:foreground "gray60" :slant italic)))) ;; :height 0.99
+   `(lsp-ui-sideline-code-action ((t (:foreground "Orchid")))) ;; Orchid, magenta?
 ;;;;; magit
    `(magit-section-heading ((t (:foreground ,cyan :weight bold :underline t :height 1.4))))
    `(magit-section-highlight ((t (:background ,bg-alt))))
@@ -508,14 +516,17 @@ Also bind `class' to ((class color) (min-colors 89))."
 ;;;;; mode-line/sml-mode-line
    `(mode-line
      ((,class (:foreground ,fg
-                           :background ,cyan-light
+                           :height 0.92
+                           :background ,yellow-gray ;cyan-light
                            :box (:line-width -1 :style released-button)))
       (t :inverse-video t)))
    `(mode-line-inactive
      ((t (:foreground ,fg
+                      :height 0.92
                       :background ,bg-dark
+                      :foreground ,purple-light2  ; normal purple, not the redefine `,purple`
                       :box (:line-width -1 :style pressed-button)))))
-   `(mode-line-buffer-id ((t (:foreground ,red :weight bold))))
+   `(mode-line-buffer-id ((t (:foreground ,purple :weight bold))))
    `(sml/global ((t (:foreground ,fg))))
    `(sml/modes ((t (:foreground ,green :background ,green-light))))
    `(sml/filename ((t (:foreground ,red))))
@@ -619,17 +630,17 @@ Also bind `class' to ((class color) (min-colors 89))."
    `(yascroll:thumb-text-area ((t (:background ,highlight))))
    `(yascroll:thumb-fringe ((t (:background ,bg :foreground ,bg :box (:line-width 1 :style released-button)))))
 ;;;;; Org
-   `(org-level-1 ((t (:height 1.4 :weight bold :background ,bg-dark
+   `(org-level-1 ((t (:height 1.3 :weight bold :background ,bg-dark
                               :family "Sans Serif"
                               :box (:line-width 1 :style released-button)))))
    `(org-level-2 ((t (:height 1.2 :background ,bg-dark
                               :box (:line-width 1 :style released-button)))))
-   `(org-level-3 ((t (:weight bold))))
-   `(org-level-4 ((t (:foreground ,fg-alt-dark :weight bold))))
-   `(org-level-5 ((t (:foreground ,fg-alt-dark))))
-   `(org-level-6 ((t (:foreground ,fg-alt))))
-   `(org-level-7 ((t (:foreground ,fg-alt))))
-   `(org-level-8 ((t (:foreground ,fg-alt))))
+   `(org-level-3 ((t (:height 1.1 :weight bold))))
+   `(org-level-4 ((t (:height 1.1 :foreground ,fg-alt-dark :weight bold))))
+   `(org-level-5 ((t (:foreground ,fg-alt-dark :weight bold))))
+   `(org-level-6 ((t (:foreground ,fg-alt-dark))))
+   `(org-level-7 ((t (:foreground ,fg-alt-dark))))
+   `(org-level-8 ((t (:foreground ,fg-alt-dark))))
    `(org-meta-line ((t (:foreground ,green))))
    `(org-document-info ((t (:foreground ,cyan :weight bold))))
    `(org-document-info-keyword ((t (:foreground ,cyan))))
@@ -652,7 +663,16 @@ Also bind `class' to ((class color) (min-colors 89))."
                                :italic t))))
    `(org-block-end-line ((t (:foreground ,fg-alt :background ,bg-dark
                              :italic t))))
-
+;;;;; Markdown
+   `(markdown-header-face-1 ((t (:height 1.3 :weight bold :background ,bg-dark
+                              :family "Sans Serif"
+                              :box (:line-width 1 :style released-button)))))
+   `(markdown-header-face-2((t (:height 1.2 :background ,bg-dark
+                              :box (:line-width 1 :style released-button)))))
+   `(markdown-header-face-3 ((t (:height 1.1 :background ,bg-dark :weight normal
+                                         :box (:line-width 1 :style released-button)))))
+   `(markdown-header-face-4 ((t (:height 1.1 :foreground ,fg-alt-dark :weight bold))))
+   `(markdown-header-face-5 ((t (:foreground ,fg-alt-dark :weight bold))))
 ;;;;; origami
    `(origami-fold-replacement-face ((t (:foreground ,red :background ,red-light
                                                     :box (:line-width -1)))))
@@ -675,12 +695,12 @@ Also bind `class' to ((class color) (min-colors 89))."
    'plan9
 ;;;;; ansi-color
    ;;`(ansi-color-names-vector [,clouds ,alizarin ,emerald ,sun-flower
-   ;;                                       ,peter-river ,amethyst ,turquoise ,midnight-blue])
+   ;;                                       ,peter-river ,amethyst ,turquoise ,midnightblue])
 ;;;;; fill-column-indicator
    `(fci-rule-color ,yellow-light)
 ;;;;; highlight-parentheses
-   `(hl-paren-colors '(,green ,blue ,red))
-   `(hl-paren-background-colors '(,green-light ,blue-light ,red-light))
+   `(hl-paren-colors '(,purple ,blue ,red))
+   `(hl-paren-background-colors '(,purple-light ,blue-light ,red-light))
 ;;;;; sml-mode-line
    `(sml/active-foreground-color ,fg)
    `(sml/active-background-color ,cyan-light)
@@ -702,6 +722,32 @@ Also bind `class' to ((class color) (min-colors 89))."
    ;;     (360. . ,belize-hole)))
    ;; `(vc-annotate-very-old-color ,belize-hole)
    ;; `(vc-annotate-background ,clouds)
+
+   ;; this is from .spacemacs custom-set-variables
+   ;; '(vc-annotate-color-map
+   ;;   (quote
+   ;;    ((20 . "#a80000")
+   ;;     (40 . "#721045")
+   ;;     (60 . "#8f0075")
+   ;;     (80 . "#880000")
+   ;;     (100 . "#8b3800")
+   ;;     (120 . "#714900")
+   ;;     (140 . "#5d3026")
+   ;;     (160 . "#184034")
+   ;;     (180 . "#005200")
+   ;;     (200 . "#4a5700")
+   ;;     (220 . "#005a68")
+   ;;     (240 . "#185870")
+   ;;     (260 . "#005589")
+   ;;     (280 . "#093060")
+   ;;     (300 . "#0030a6")
+   ;;     (320 . "#223fbf")
+   ;;     (340 . "#0000bb")
+   ;;     (360 . "#5317ac"))))
+
+   ;; '(ibuffer-deletion-face (quote dired-flagged))
+   ;; '(ibuffer-marked-face (quote dired-marked))
+
    ))
 
 
