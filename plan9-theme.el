@@ -1,10 +1,13 @@
 ;;; plan9-theme.el --- A color theme for Emacs based on Plan9
 
+;; Copyright (C) 2017 Robert Zaremba
 ;; Copyright (C) 2015 John Louis Del Rosario
 
-;; Author: John Louis Del Rosario <john2x@gmail.com>
+;; Authors: Robert Zaremba [https://github.com/robert-zaremba]
+;;          John Louis Del Rosario <john2x@gmail.com>
 ;; URL: https://github.com/john2x/plan9-theme.el
 ;; Package-Version: 20180804.1441
+;; Package-Requires: ((emacs "27.1"))
 ;; Version: 0.2
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -22,6 +25,8 @@
 
 ;;; Commentary:
 
+;; Inspired by Plan 9 colors. A light alternative for that classic look.
+
 ;;; Credits:
 
 ;; This theme was modified from zenburn-theme.el by Bozhidar Batsov
@@ -29,46 +34,48 @@
 
 ;;; Code:
 
-(deftheme plan9 "Theme inspired by Plan9")
+(deftheme plan9 "Theme inspired by Plan9.")
 
 ;;; Color Palette
 
 (defvar plan9-colors-alist
-  '(("bg"            . "#F5F1E1") ; FFFFE8   ; faff: e5ddd0
-    ("bg-alt"        . "#FFFFD8")
-    ("bg-dark"       . "#E0E0D0")
+  '(("bg"            . "#F5F1E5") ; FFFFE8   ; faff: e5ddd0
+    ("bg-alt"        . "#FBFBDF") ; #E0E0CB  ; lightyellow2 == E0E0C8
+    ("bg-dark"       . "#E0E0C9")
+    ("bg-dark2"      . "#D0D0B5")
 
-    ("fg"            . "#090909") ; 424242
-    ("fg-alt"        . "#B8B09A")
+    ("fg"            . "#080808") ; 424242
+    ("fg-alt"        . "#B4AB98")
     ("fg-alt-dark"   . "#877c68") ; 988d6d;
     ("fg-light"      . "#CCCCB7")
 
     ("highlight"     . "#e8eb98")
 
     ("gray"          . "darkslategray")  ; darkslategray, bisque4
-    ("gray-light"    . "snow2")
+    ("gray-bg0"   . "LightGray")
+    ("gray-bg"    . "snow3")
+    ("gray-bg2"   . "snow4")  ; snow4, gray40
 
-    ("cyan"          . "#008080") ; a bit darker DarkCyan = #008b8b, orgi: #4fa8a8
-    ("cyan-light"    . "#90efef")
+    ("cyan"          . "#007a7a") ; a bit darker DarkCyan = #008b8b, orgi: #4fa8a8
+    ("cyan-bg"    . "#90efef")
 
     ("red"           . "firebrick")
-    ("red-light"     . "#f8d2d2")
+    ("red-bg"     . "#f9d4d4")
 
-    ("yellow"        . "#686800") ;; 989848
-    ("yellow-light"  . "#f8fce8")
-    ("yellow-gray"   . "lightyellow2")
+    ("yellow"        . "#525200") ;; 626200 ;989848
+    ("yellow-bg"  . "#fbf9c8") ;; f8fce7
 
     ("green"         . "#207010") ;; 40883f
-    ("green-light"   . "#e8fce8")
+    ("green-bg"   . "#e8fce8")
 
     ("blue"          . "DarkBlue") ;; 0287c8
-    ("blue-light"    . "#c1e7f8")
+    ("blue-bg"    . "#c1e7f8")
 
     ("purple"        . "purple4")
-    ("purple-light"  . "plum2")
-    ("purple-light2"  . "purple"))
+    ("purple-bg"  . "plum2")
+    ("purple-bg2" . "purple"))
   "List of Plan9 colors.
-Each element has the form (NAME . HEX). ")
+Each element has the form (NAME . HEX).")
 
 (defmacro plan9/with-color-variables (&rest body)
   "`let' bind all colors defined in `plan9-colors-alist' around BODY.
@@ -91,17 +98,17 @@ Also bind `class' to ((class color) (min-colors 89))."
    `(link-visited ((t (:foreground ,purple :underline t :weight normal))))
    `(default ((t (:foreground ,fg :background ,bg))))
    `(cursor ((t (:foreground ,bg :background ,fg))))
-   `(escape-glyph ((t (:foreground ,cyan-light :bold t))))
+   `(escape-glyph ((t (:foreground ,cyan-bg :bold t))))
    `(fringe ((t (:foreground ,fg :background ,bg-dark))))
    `(header-line ((t (:foreground ,purple
-                                  :background ,purple-light
-                                  :box (:line-width -1 :style released-button)))))
+                      :background ,purple-bg
+                      :box (:line-width -1 :style released-button)))))
    `(highlight ((t (:background ,highlight))))
    `(success ((t (:foreground ,green :weight bold))))
    `(warning ((t (:foreground ,red :weight bold))))
 ;;;;; compilation
-   `(compilation-column-face ((t (:foreground ,yellow :background ,yellow-light))))
-   `(compilation-column-number ((t (:foreground ,yellow :background ,yellow-light))))
+   `(compilation-column-face ((t (:foreground ,yellow :background ,yellow-bg))))
+   `(compilation-column-number ((t (:foreground ,yellow :background ,yellow-bg))))
    ;;`(compilation-enter-directory-face ((t (:foreground ,))))
    `(compilation-error-face ((t (:foreground ,red :weight bold :underline t))))
    `(compilation-face ((t (:foreground ,fg))))
@@ -109,7 +116,7 @@ Also bind `class' to ((class color) (min-colors 89))."
    `(compilation-info ((t (:foreground ,blue :underline t))))
    ;;`(compilation-leave-directory-face ((t (:foreground ,wisteria))))
    `(compilation-line-face ((t (:foreground ,purple))))
-   `(compilation-line-number ((t (:foreground ,yellow :background ,yellow-light))))
+   `(compilation-line-number ((t (:foreground ,yellow :background ,yellow-bg))))
    `(compilation-message-face ((t (:foreground ,blue))))
    `(compilation-warning-face ((t (:foreground ,yellow :weight bold :underline t))))
    `(compilation-mode-line-exit ((t (:foreground ,cyan :weight bold))))
@@ -119,39 +126,43 @@ Also bind `class' to ((class color) (min-colors 89))."
    `(grep-context-face ((t (:foreground ,fg-alt))))
    `(grep-error-face ((t (:foreground ,red :weight bold :underline t))))
    `(grep-hit-face ((t (:foreground ,purple :weight bold))))
-   `(grep-match-face ((t (:foreground ,cyan :weight bold))))
-   `(match ((t (:background ,cyan :foreground ,cyan-light))))
+   `(grep-match-face ((t (:foreground ,cyan))))
+   `(match ((t (:background ,cyan :foreground ,cyan-bg))))
 ;;;;; ag
    `(ag-hit-face ((t (:foreground ,green :weight bold))))
-   `(ag-match-face ((t (:foreground ,cyan :background ,cyan-light :weight bold))))
+   `(ag-match-face ((t (:foreground ,cyan :background ,cyan-bg))))
 ;;;;; isearch
-   `(isearch ((t (:foreground ,fg :weight bold :background ,cyan-light))))
+   `(isearch ((t (:foreground ,fg :background ,cyan-bg))))
    `(isearch-fail ((t (:foreground ,fg :weight bold :background ,red))))
-   `(lazy-highlight ((t (:foreground ,fg :weight bold :background ,blue-light))))
+   `(lazy-highlight ((t (:foreground ,fg :background ,blue-bg))))
 
    `(menu ((t (:foreground ,bg :background ,fg))))
    `(minibuffer-prompt ((t (:foreground ,fg :weight bold))))
    `(region ((,class (:background ,highlight :foreground ,fg))
              (t :inverse-video t)))
-   `(secondary-selection ((t (:background ,green-light))))
-   `(trailing-whitespace ((t (:background ,red-light))))
+   `(secondary-selection ((t (:background ,green-bg))))
+   `(trailing-whitespace ((t (:background ,red-bg))))
    `(vertical-border ((t (:foreground ,cyan))))
 ;;;;; font lock
    `(font-lock-builtin-face ((t (:foreground ,fg :weight bold))))
-   `(font-lock-comment-face ((t (:foreground ,gray))))
    `(font-lock-comment-delimiter-face ((t (:foreground ,gray))))
+   `(font-lock-comment-face ((t (:foreground ,gray :slant italic))))
    `(font-lock-constant-face ((t (:foreground ,yellow :weight bold))))
-   `(font-lock-doc-face ((t (:foreground ,green))))
+   `(font-lock-doc-face ((t (:foreground ,green :slant italic))))
+   `(font-lock-doc-markup-face ((t (:inherit font-lock-doc-face :foreground ,cyan))))
    `(font-lock-function-name-face ((t (:foreground ,fg :weight bold))))
    `(font-lock-keyword-face ((t (:foreground ,yellow))))
    `(font-lock-negation-char-face ((t (:foreground ,red :weight bold))))
    `(font-lock-preprocessor-face ((t (:foreground ,green :weight bold))))
    `(font-lock-regexp-grouping-construct ((t (:foreground ,red :weight bold))))
    `(font-lock-regexp-grouping-backslash ((t (:foreground ,red :weight bold))))
-   `(font-lock-string-face ((t (:foreground ,red))))
+   `(font-lock-string-face ((t (:foreground ,cyan)))) ; ,red
    `(font-lock-type-face ((t (:foreground ,blue, :weight bold))))
-   `(font-lock-variable-name-face ((t (:foreground ,cyan))))
+                                        ; `(font-lock-variable-name-face ((t (:foreground ,cyan))))
+   `(font-lock-variable-name-face ((t (:inherit default))))
    `(font-lock-warning-face ((t (:foreground ,red :weight bold))))
+
+   `(shadow ((t (:foreground ,gray-bg2))))  ; used for example in markdown-markup-face
 
  ;;;; table
    `(table-cell ((t (:background ,bg-alt))))
@@ -167,14 +178,27 @@ Also bind `class' to ((class color) (min-colors 89))."
    `(ledger-font-payee-cleared-face ((t (:foreground ,fg))))
    `(ledger-font-payee-pending-face ((t (:foreground ,yellow))))
    `(ledger-font-xact-highlight-face ((t (:background ,bg-alt))))
+
+   '(calendar-today ((t (:background "yellow1" :underline t))))
+
 ;;;; Third-party
+
+
+
 ;;;;; ace-jump
    ;; `(ace-jump-face-background
    ;;   ((t (:foreground ,nephritis :background ,clouds :inverse-video nil))))
    ;; `(ace-jump-face-foreground
    ;;   ((t (:foreground ,nephritis :background ,clouds :inverse-video nil))))
+
+;;;;; ace-window
+   '(aw-leading-char-face ((t (:foreground "red" :height 3.0))))
+   '(aw-mode-line-face ((t (:background "green1" :inverse-video t))))
+
+
+
 ;;;; anzu
-   `(anzu-mode-line ((t (:foreground ,yellow :background ,yellow-light :weight bold))))
+   `(anzu-mode-line ((t (:foreground ,yellow :background ,yellow-bg :weight bold))))
 ;;;;; auto-complete
    ;; `(ac-candidate-face ((t (:background ,concrete :foreground ,midnight-blue))))
    ;; `(ac-selection-face ((t (:background ,asbestos :foreground ,midnight-blue))))
@@ -194,28 +218,28 @@ Also bind `class' to ((class color) (min-colors 89))."
    `(clojure-test-error-face ((t (:foreground ,red :weight bold :underline t))))
    `(clojure-test-success-face ((t (:foreground ,green :weight bold :underline t))))
 ;;;; diff
-   `(diff-added ((,class (:foreground ,fg :background ,green-light))
-                 (t (:foreground ,fg :background ,green-light))))
+   `(diff-added ((,class (:foreground ,fg :background ,green-bg))
+                 (t (:foreground ,fg :background ,green-bg))))
    `(diff-changed ((t (:foreground ,yellow))))
    `(diff-context ((t (:foreground ,fg))))
-   `(diff-removed ((,class (:foreground ,fg :background ,red-light))
-                   (t (:foreground ,fg :background ,red-light))))
-   `(diff-refine-added ((t :inherit diff-added :background ,green-light :weight bold)))
+   `(diff-removed ((,class (:foreground ,fg :background ,red-bg))
+                   (t (:foreground ,fg :background ,red-bg))))
+   `(diff-refine-added ((t :inherit diff-added :background ,green-bg :weight bold)))
    `(diff-refine-change ((t :inherit diff-changed :weight bold)))
-   `(diff-refine-removed ((t :inherit diff-removed :background ,red-light :weight bold)))
+   `(diff-refine-removed ((t :inherit diff-removed :background ,red-bg :weight bold)))
    `(diff-header ((,class (:foreground ,fg :weight bold))
-                  (t (:foreground ,purple-light :weight bold))))
+                  (t (:foreground ,purple-bg :weight bold))))
    `(diff-file-header
-     ((,class (:foreground ,fg :background ,cyan-light :weight bold))
-      (t (:foreground ,fg :background ,cyan-light :weight bold))))
+     ((,class (:foreground ,fg :background ,cyan-bg :weight bold))
+      (t (:foreground ,fg :background ,cyan-bg :weight bold))))
    `(diff-hunk-header
      ((,class (:foreground ,green :weight bold))
       (t (:foreground ,green :weight bold))))
 
 ;;;; diff-hl
-   `(diff-hl-insert ((t (:foreground ,fg :background ,green-light))))
-   `(diff-hl-delete ((t (:foreground ,fg :background ,red-light))))
-   `(diff-hl-change ((t (:foreground ,fg :background ,yellow-light))))
+   `(diff-hl-insert ((t (:foreground ,fg :background ,green-bg))))
+   `(diff-hl-delete ((t (:foreground ,fg :background ,red-bg))))
+   `(diff-hl-change ((t (:foreground ,fg :background ,yellow-bg))))
 
 ;;;; dired/dired+/dired-subtree
    `(diredp-display-msg ((t (:foreground ,blue))))
@@ -223,7 +247,7 @@ Also bind `class' to ((class color) (min-colors 89))."
    `(diredp-date-time ((t (:foreground ,green))))
    `(diredp-deletion ((t (:foreground ,red))))
    `(diredp-deletion-file-name ((t (:foreground ,red))))
-   `(diredp-dir-heading ((t (:foreground ,blue :background ,blue-light :weight bold))))
+   `(diredp-dir-heading ((t (:foreground ,blue :background ,blue-bg :weight bold))))
    `(diredp-dir-priv ((t (:foreground ,blue))))
    `(diredp-exec-priv ((t (:foreground ,yellow))))
    `(diredp-executable-tag ((t (:foreground ,yellow))))
@@ -240,12 +264,14 @@ Also bind `class' to ((class color) (min-colors 89))."
    `(diredp-other-priv ((t (:foreground ,fg))))
    `(diredp-rare-priv ((t (:foreground ,fg))))
    `(diredp-read-priv ((t (:foreground ,fg))))
-   `(diredp-symlink ((t (:foreground ,fg :background ,blue-light))))
+   `(diredp-symlink ((t (:foreground ,fg :background ,blue-bg))))
    `(diredp-write-priv ((t (:foreground ,fg))))
-   `(diredp-dir-name ((t (:foreground ,blue :background ,blue-light :weight bold))))
+   `(diredp-dir-name ((t (:foreground ,blue :background ,blue-bg :weight bold))))
    `(dired-subtree-depth-1-face ((t (:background ,bg))))
    `(dired-subtree-depth-2-face ((t (:background ,bg))))
    `(dired-subtree-depth-3-face ((t (:background ,bg))))
+
+   `(dired-compress-file-suffixes ((t (:foreground ,yellow))))
 ;;;;; ediff
    ;; `(ediff-current-diff-A ((t (:foreground ,midnight-blue :background ,alizarin))))
    ;; `(ediff-current-diff-Ancestor ((t (:foreground ,midnight-blue :background ,alizarin))))
@@ -277,16 +303,16 @@ Also bind `class' to ((class color) (min-colors 89))."
    `(erc-bold-face ((t (:inherit erc-default-face :weight bold))))
    `(erc-underline-face ((t (:underline t))))
    `(erc-error-face ((t (:inherit font-lock-warning-face))))
-   `(erc-prompt-face ((t (:foreground ,green :background ,green-light :weight bold))))
-   `(erc-timestamp-face ((t (:foreground ,green :background ,green-light))))
+   `(erc-prompt-face ((t (:foreground ,green :background ,green-bg :weight bold))))
+   `(erc-timestamp-face ((t (:foreground ,green :background ,green-bg))))
    `(erc-direct-msg-face ((t (:inherit erc-default))))
    `(erc-notice-face ((t (:foreground ,fg-light))))
    `(erc-highlight-face ((t (:background ,highlight))))
 
    `(erc-input-face ((t (:foreground ,fg :background ,bg-alt))))
-   `(erc-current-nick-face ((t (:foreground ,fg :background ,cyan-light :weight bold :box (:line-width 1 :style released-button)))))
+   `(erc-current-nick-face ((t (:foreground ,fg :background ,cyan-bg :weight bold :box (:line-width 1 :style released-button)))))
    `(erc-nick-default-face ((t (:weight bold :background ,bg-alt))))
-   `(erc-my-nick-face ((t (:foreground ,fg :background ,cyan-light :weight bold :box (:line-width 1 :style released-button)))))
+   `(erc-my-nick-face ((t (:foreground ,fg :background ,cyan-bg :weight bold :box (:line-width 1 :style released-button)))))
    `(erc-nick-msg-face ((t (:inherit erc-default))))
    `(erc-fool-face ((t (:inherit erc-default))))
    `(erc-pal-face ((t (:foreground ,purple :weight bold))))
@@ -307,19 +333,22 @@ Also bind `class' to ((class color) (min-colors 89))."
    ;; `(eshell-ls-symlink ((t (:foreground ,clouds :background ,amethyst))))
   ;;;;; evil
    `(evil-search-highlight-persist-highlight-face ((t (:inherit lazy-highlight))))
+;;;;; fill-column-indicator
+   `(fill-column-indicator ((t (:foreground ,gray-bg0))))
+
 ;;;;; flx
-   `(flx-highlight-face ((t (:foreground ,yellow :background ,green-light :weight bold :underline t))))
+   `(flx-highlight-face ((t (:foreground ,yellow :background ,green-bg :underline t))))
 ;;;;; company
-   `(company-tooltip ((t (:background ,green-light))))
-   `(company-tooltip-selection ((t (:background ,cyan-light))))
-   `(company-tooltip-mouse ((t (:background ,blue-light))))
+   `(company-tooltip ((t (:background ,green-bg))))
+   `(company-tooltip-selection ((t (:background ,cyan-bg))))
+   `(company-tooltip-mouse ((t (:background ,blue-bg))))
    `(company-tooltip-search ((t (:foreground ,red))))
-   `(company-tooltip-common ((t (:foreground ,red :background ,green-light))))
-   `(company-tooltip-annotation ((t (:foreground ,green :background ,green-light))))
+   `(company-tooltip-common ((t (:foreground ,red :background ,green-bg))))
+   `(company-tooltip-annotation ((t (:foreground ,green :background ,green-bg))))
    `(company-scrollbar-fg ((t (:background ,red))))
-   `(company-scrollbar-bg ((t (:background ,red-light))))
-   `(company-preview ((t (:foreground ,fg :background ,cyan-light))))
-   `(company-preview-common ((t (:foreground ,fg :background ,cyan-light))))
+   `(company-scrollbar-bg ((t (:background ,red-bg))))
+   `(company-preview ((t (:foreground ,fg :background ,cyan-bg))))
+   `(company-preview-common ((t (:foreground ,fg :background ,cyan-bg))))
 ;;;; flycheck
    `(flycheck-error
      ((((supports :underline (:style wave)))
@@ -336,36 +365,36 @@ Also bind `class' to ((class color) (min-colors 89))."
    `(flycheck-fringe-error ((t (:foreground ,red :weight bold))))
    `(flycheck-fringe-warning ((t (:foreground ,yellow :weight bold))))
    `(flycheck-fringe-info ((t (:foreground ,purple :weight bold))))
-;; ;;;;; flymake
-;;    `(flymake-errline
-;;      ((((supports :underline (:style wave)))
-;;        (:underline (:style wave :color ,alizarin)
-;;                    :inherit unspecified :foreground unspecified :background unspecified))
-;;       (t (:foreground ,alizarin :weight bold :underline t))))
-;;    `(flymake-warnline
-;;      ((((supports :underline (:style wave)))
-;;        (:underline (:style wave :color ,orange)
-;;                    :inherit unspecified :foreground unspecified :background unspecified))
-;;       (t (:foreground ,orange :weight bold :underline t))))
-;;    `(flymake-infoline
-;;      ((((supports :underline (:style wave)))
-;;        (:underline (:style wave :color ,wisteria)
-;;                    :inherit unspecified :foreground unspecified :background unspecified))
-;;       (t (:foreground ,wisteria :weight bold :underline t))))
-;; ;;;;; flyspell
-;;    `(flyspell-duplicate
-;;      ((((supports :underline (:style wave)))
-;;        (:underline (:style wave :color ,orange) :inherit unspecified))
-;;       (t (:foreground ,orange :weight bold :underline t))))
-;;    `(flyspell-incorrect
-;;      ((((supports :underline (:style wave)))
-;;        (:underline (:style wave :color ,alizarin) :inherit unspecified))
-;;       (t (:foreground ,alizarin :weight bold :underline t))))
-;; ;;;;; TODO: full-ack
-;;    ;; `(ack-separator ((t (:foreground ,zenburn-fg))))
-;;    ;; `(ack-file ((t (:foreground ,zenburn-blue))))
-;;    ;; `(ack-line ((t (:foreground ,zenburn-yellow))))
-;;    ;; `(ack-match ((t (:foreground ,zenburn-orange :background ,zenburn-bg-1 :weight bold))))
+   ;; ;;;;; flymake
+   ;;    `(flymake-errline
+   ;;      ((((supports :underline (:style wave)))
+   ;;        (:underline (:style wave :color ,alizarin)
+   ;;                    :inherit unspecified :foreground unspecified :background unspecified))
+   ;;       (t (:foreground ,alizarin :weight bold :underline t))))
+   ;;    `(flymake-warnline
+   ;;      ((((supports :underline (:style wave)))
+   ;;        (:underline (:style wave :color ,orange)
+   ;;                    :inherit unspecified :foreground unspecified :background unspecified))
+   ;;       (t (:foreground ,orange :weight bold :underline t))))
+   ;;    `(flymake-infoline
+   ;;      ((((supports :underline (:style wave)))
+   ;;        (:underline (:style wave :color ,wisteria)
+   ;;                    :inherit unspecified :foreground unspecified :background unspecified))
+   ;;       (t (:foreground ,wisteria :weight bold :underline t))))
+   ;; ;;;;; flyspell
+   ;;    `(flyspell-duplicate
+   ;;      ((((supports :underline (:style wave)))
+   ;;        (:underline (:style wave :color ,orange) :inherit unspecified))
+   ;;       (t (:foreground ,orange :weight bold :underline t))))
+   ;;    `(flyspell-incorrect
+   ;;      ((((supports :underline (:style wave)))
+   ;;        (:underline (:style wave :color ,alizarin) :inherit unspecified))
+   ;;       (t (:foreground ,alizarin :weight bold :underline t))))
+   ;; ;;;;; TODO: full-ack
+   ;;    ;; `(ack-separator ((t (:foreground ,zenburn-fg))))
+   ;;    ;; `(ack-file ((t (:foreground ,zenburn-blue))))
+   ;;    ;; `(ack-line ((t (:foreground ,zenburn-yellow))))
+   ;;    ;; `(ack-match ((t (:foreground ,zenburn-orange :background ,zenburn-bg-1 :weight bold))))
 ;;;;; git-gutter
    `(git-gutter:added ((t (:foreground ,green :weight bold))))
    `(git-gutter:deleted ((t (:foreground ,red :weight bold))))
@@ -375,33 +404,36 @@ Also bind `class' to ((class color) (min-colors 89))."
    `(git-gutter-fr:added ((t (:foreground ,green  :weight bold))))
    `(git-gutter-fr:deleted ((t (:foreground ,red :weight bold))))
    `(git-gutter-fr:modified ((t (:foreground ,yellow :weight bold))))
-;; ;; ;;;;; git-rebase-mode
-;; ;;    `(git-rebase-hash ((t (:foreground, zenburn-orange))))
-;; ;;;;; guide-key
-;;    `(guide-key/highlight-command-face ((t (:foreground ,peter-river))))
-;;    `(guide-key/key-face ((t (:foreground ,orange))))
-;;    `(guide-key/prefix-command-face ((t (:foreground ,wisteria))))
+   ;; ;; ;;;;; git-rebase-mode
+   ;; ;;    `(git-rebase-hash ((t (:foreground, zenburn-orange))))
+   ;; ;;;;; guide-key
+   ;;    `(guide-key/highlight-command-face ((t (:foreground ,peter-river))))
+   ;;    `(guide-key/key-face ((t (:foreground ,orange))))
+   ;;    `(guide-key/prefix-command-face ((t (:foreground ,wisteria))))
 
-;; ;;;;; helm
-;;    `(helm-action ((t (:underline nil))))
-;;    `(helm-selection ((t (:background ,sun-flower :underline nil :weight bold))))
-;;    `(helm-candidate-number ((t (:foreground ,turquoise))))
-;;    `(helm-source-header ((t (:foreground ,midnight-blue :weight bold))))
-;;    `(helm-visible-mark ((t (:foreground ,alizarin))))
-;;    `(helm-ff-directory ((t (:foreground ,peter-river))))
-;;    `(helm-ff-executable ((t (:foreground ,pumpkin))))
-;;    `(helm-ff-symlink ((t (:foreground ,clouds :background ,amethyst))))
-;;    `(helm-ff-prefix ((t (:foreground ,alizarin))))
-;;    `(helm-M-x-key ((t (:foreground ,asbestos))))
-;;    `(helm-grep-file ((t (:foreground ,turquoise))))
-;;    `(helm-grep-lineno ((t (:foreground ,asbestos))))
-;;    `(helm-grep-running ((t (:foreground ,alizarin))))
-;;    `(helm-grep-finish ((t (:foreground ,turquoise))))
-;;    `(helm-buffer-saved-out ((t (:foreground ,orange :background nil))))
-;;    `(helm-moccur-buffer ((t (:foreground ,asbestos))))
+   ;; ;;;;; helm
+   ;;    `(helm-action ((t (:underline nil))))
+   ;;    `(helm-selection ((t (:background ,sun-flower :underline nil :weight bold))))
+   ;;    `(helm-candidate-number ((t (:foreground ,turquoise))))
+   ;;    `(helm-source-header ((t (:foreground ,midnight-blue :weight bold))))
+   ;;    `(helm-visible-mark ((t (:foreground ,alizarin))))
+   ;;    `(helm-ff-directory ((t (:foreground ,peter-river))))
+   ;;    `(helm-ff-executable ((t (:foreground ,pumpkin))))
+   ;;    `(helm-ff-symlink ((t (:foreground ,clouds :background ,amethyst))))
+   ;;    `(helm-ff-prefix ((t (:foreground ,alizarin))))
+   ;;    `(helm-M-x-key ((t (:foreground ,asbestos))))
+   ;;    `(helm-grep-file ((t (:foreground ,turquoise))))
+   ;;    `(helm-grep-lineno ((t (:foreground ,asbestos))))
+   ;;    `(helm-grep-running ((t (:foreground ,alizarin))))
+   ;;    `(helm-grep-finish ((t (:foreground ,turquoise))))
+   ;;    `(helm-buffer-saved-out ((t (:foreground ,orange :background nil))))
+   ;;    `(helm-moccur-buffer ((t (:foreground ,asbestos))))
 
-;; ;;;;; highlight-symbol
-    `(highlight-symbol-face ((t (:background ,bg-dark :underline t))))
+   ;; ;;;;; highlight-symbol
+   `(highlight-symbol-face ((t (:background ,bg-dark :underline t))))
+   `(highlight-quoted-symbol ((t (:foreground "black"))))
+
+
 
 ;;;;; hl-line-mode
    `(hl-line-face ((,class (:background ,bg-alt))
@@ -417,17 +449,17 @@ Also bind `class' to ((class color) (min-colors 89))."
    `(ido-subdir ((t (:foreground ,blue))))
    `(ido-indicator ((t (:foreground ,yellow))))
 ;;;;; ido-vertical
-   `(ido-vertical-first-match-face ((t (:foreground ,fg :background ,cyan-light :weight bold))))
-   `(ido-vertical-only-match-face ((t (:foreground ,red :background ,red-light :weight bold))))
-   `(ido-vertical-match-face ((t (:foreground ,fg :background ,green-light :weight bold :underline t))))
+   `(ido-vertical-first-match-face ((t (:foreground ,fg :background ,cyan-bg :weight bold))))
+   `(ido-vertical-only-match-face ((t (:foreground ,red :background ,red-bg :weight bold))))
+   `(ido-vertical-match-face ((t (:foreground ,fg :background ,green-bg :weight bold :underline t))))
 ;;;;; indent-guide
    `(indent-guide-face ((t (:foreground ,highlight))))
 ;;;;; ivy
    `(ivy-current-match ((t (:background ,highlight))))
    `(ivy-minibuffer-match-face-1 ((t (:background ,bg-alt))))
-   `(ivy-minibuffer-match-face-2 ((t (:background ,cyan-light))))
-   `(ivy-minibuffer-match-face-3 ((t (:background ,purple-light))))
-   `(ivy-minibuffer-match-face-3 ((t (:background ,blue-light))))
+   `(ivy-minibuffer-match-face-2 ((t (:background ,cyan-bg))))
+   `(ivy-minibuffer-match-face-3 ((t (:background ,purple-bg))))
+   `(ivy-minibuffer-match-face-3 ((t (:background ,blue-bg))))
 ;;;;; js2-mode
    `(js2-warning ((t (:underline ,yellow))))
    `(js2-error ((t (:foreground ,red :weight bold))))
@@ -440,8 +472,9 @@ Also bind `class' to ((class color) (min-colors 89))."
    `(linum ((t (:foreground ,fg-light))))
 ;;;;; lsp-mode
    `(lsp-face-highlight-textual ((t (:background ,bg-dark))))
-   `(lsp-face-highlight-read ((t (:background ,purple-light))))
-   `(lsp-face-highlight-write ((t (:background ,green-light))))
+   `(lsp-face-highlight-read ((t (:background ,purple-bg))))
+   `(lsp-face-highlight-write ((t (:background ,green-bg))))
+   `(lsp-ui-doc-background ((t (:background ,bg-dark))))
    `(lsp-ui-sideline-symbol-info ((t (:foreground "gray60" :slant italic)))) ;; :height 0.99
    `(lsp-ui-sideline-code-action ((t (:foreground "Orchid")))) ;; Orchid, magenta?
 ;;;;; magit
@@ -455,27 +488,27 @@ Also bind `class' to ((class color) (min-colors 89))."
    `(magit-refname ((t (:foreground ,purple :weight bold))))
    `(magit-head ((t (:foreground ,green :weight bold))))
 
-   `(magit-branch-local ((t (:foreground ,blue :background ,blue-light
-                                         :weight bold))))
-   `(magit-branch-remote ((t (:foreground ,green :background ,green-light
-                                          :weight bold))))
-   `(magit-branch-current ((t (:foreground ,cyan :background ,cyan-light
-                                          :weight bold
-                                          :box (:line-width 1 :color ,cyan)))))
+   `(magit-branch-local ((t (:foreground ,blue :background ,blue-bg
+                             :weight bold))))
+   `(magit-branch-remote ((t (:foreground ,green :background ,green-bg
+                              :weight bold))))
+   `(magit-branch-current ((t (:foreground ,cyan :background ,cyan-bg
+                               :weight bold
+                               :box (:line-width 1 :color ,cyan)))))
 
    `(magit-diff-file-heading ((t (:foreground ,fg :weight bold))))
    `(magit-diff-file-heading-highlight ((t (:background ,bg-alt))))
    `(magit-diff-file-heading-selection ((t (:foreground ,red :background ,highlight))))
    `(magit-diff-hunk-heading ((t (:foreground ,blue :weight bold :underline t))))
-   `(magit-diff-hunk-heading-highlight ((t (:background ,blue-light))))
-   `(magit-diff-added ((t (:foreground ,green :background ,green-light))))
-   `(magit-diff-removed ((t (:foreground ,red :background ,red-light))))
-   `(magit-diff-context ((t (:foreground ,fg-light :background nil))))
-   `(magit-diff-added-highlight ((t (:foreground ,green :background ,green-light))))
-   `(magit-diff-removed-highlight ((t (:foreground ,red :background ,red-light))))
-   `(magit-diff-context-highlight ((t (:foreground ,fg-light :background ,bg-alt))))
-   `(magit-diffstat-added ((t (:foreground ,green :background ,green-light :weight bold))))
-   `(magit-diffstat-removed ((t (:foreground ,red :background ,red-light :weight bold))))
+   `(magit-diff-hunk-heading-highlight ((t (:background ,blue-bg))))
+   `(magit-diff-added ((t (:foreground ,green :background ,green-bg))))
+   `(magit-diff-removed ((t (:foreground ,red :background ,red-bg))))
+   `(magit-diff-context ((t (:foreground ,fg-alt :background unspecified))))
+   `(magit-diff-added-highlight ((t (:foreground ,green :background ,green-bg))))
+   `(magit-diff-removed-highlight ((t (:foreground ,red :background ,red-bg))))
+   `(magit-diff-context-highlight ((t (:foreground ,fg-alt :background ,bg-alt))))
+   `(magit-diffstat-added ((t (:foreground ,green :background ,green-bg :weight bold))))
+   `(magit-diffstat-removed ((t (:foreground ,red :background ,red-bg :weight bold))))
 
    `(magit-log-author ((t (:foreground ,blue :weight bold))))
    `(magit-log-date ((t (:foreground ,purple :weight bold))))
@@ -487,105 +520,108 @@ Also bind `class' to ((class color) (min-colors 89))."
 ;;;;; project-explorer
    `(pe/file-face ((t (:foreground ,fg))))
    `(pe/directory-face ((t (:foreground ,blue :weight bold))))
-;; ;;;;; outline
-;;    `(outline-1 ((t (:foreground ,green-sea))))
-;;    `(outline-2 ((t (:foreground ,belize-hole))))
-;;    `(outline-3 ((t (:foreground ,wisteria))))
-;;    `(outline-4 ((t (:foreground ,orange))))
-;;    `(outline-5 ((t (:foreground ,pumpkin))))
-;;    `(outline-6 ((t (:foreground ,pomegranate))))
+   ;; ;;;;; outline
+   ;;    `(outline-1 ((t (:foreground ,green-sea))))
+   ;;    `(outline-2 ((t (:foreground ,belize-hole))))
+   ;;    `(outline-3 ((t (:foreground ,wisteria))))
+   ;;    `(outline-4 ((t (:foreground ,orange))))
+   ;;    `(outline-5 ((t (:foreground ,pumpkin))))
+   ;;    `(outline-6 ((t (:foreground ,pomegranate))))
 ;;;;; rainbow-delimiters
    `(rainbow-delimiters-depth-1-face ((t (:foreground ,green))))
    `(rainbow-delimiters-depth-2-face ((t (:foreground ,blue))))
    `(rainbow-delimiters-depth-3-face ((t (:foreground ,red))))
-;;    `(rainbow-delimiters-depth-4-face ((t (:foreground ,peter-river))))
-;;    `(rainbow-delimiters-depth-5-face ((t (:foreground ,amethyst))))
-;;    `(rainbow-delimiters-depth-6-face ((t (:foreground ,sun-flower))))
-;;    `(rainbow-delimiters-depth-7-face ((t (:foreground ,carrot))))
-;;    `(rainbow-delimiters-depth-8-face ((t (:foreground ,alizarin))))
-;;    `(rainbow-delimiters-depth-9-face ((t (:foreground ,green-sea))))
-;;    `(rainbow-delimiters-depth-10-face ((t (:foreground ,nephritis))))
-;;    `(rainbow-delimiters-depth-11-face ((t (:foreground ,belize-hole))))
-;;    `(rainbow-delimiters-depth-12-face ((t (:foreground ,wisteria))))
-;; ;;;;; structured-haskell-mode
-;;    `(shm-current-face ((t (:background ,silver))))
-;;    `(shm-quarantine-face ((t (:inherit font-lock-error))))
+   ;;    `(rainbow-delimiters-depth-4-face ((t (:foreground ,peter-river))))
+   ;;    `(rainbow-delimiters-depth-5-face ((t (:foreground ,amethyst))))
+   ;;    `(rainbow-delimiters-depth-6-face ((t (:foreground ,sun-flower))))
+   ;;    `(rainbow-delimiters-depth-7-face ((t (:foreground ,carrot))))
+   ;;    `(rainbow-delimiters-depth-8-face ((t (:foreground ,alizarin))))
+   ;;    `(rainbow-delimiters-depth-9-face ((t (:foreground ,green-sea))))
+   ;;    `(rainbow-delimiters-depth-10-face ((t (:foreground ,nephritis))))
+   ;;    `(rainbow-delimiters-depth-11-face ((t (:foreground ,belize-hole))))
+   ;;    `(rainbow-delimiters-depth-12-face ((t (:foreground ,wisteria))))
+   ;; ;;;;; structured-haskell-mode
+   ;;    `(shm-current-face ((t (:background ,silver))))
+   ;;    `(shm-quarantine-face ((t (:inherit font-lock-error))))
 ;;;;; show-paren
    `(show-paren-mismatch ((t (:foreground ,yellow :background ,red :weight bold))))
-   `(show-paren-match ((t (:foreground ,fg :background ,cyan-light :weight bold))))
+   `(show-paren-match ((t (:foreground ,fg :background ,cyan-bg :weight bold))))
 ;;;;; mode-line/sml-mode-line
    `(mode-line
      ((,class (:foreground ,fg
-                           :height 0.92
-                           :background ,yellow-gray ;cyan-light
-                           :box (:line-width -1 :style released-button)))
+               :height 0.92
+               :background ,bg-dark
+               :box (:line-width -1 :style released-button)))
       (t :inverse-video t)))
+   `(mode-line-active
+     ((t (:background ,bg-dark2
+          :height 0.92))))
    `(mode-line-inactive
      ((t (:foreground ,fg
-                      :height 0.92
-                      :background ,bg-dark
-                      :foreground ,purple-light2  ; normal purple, not the redefine `,purple`
-                      :box (:line-width -1 :style pressed-button)))))
+          :height 0.92
+          ;; :background ,bg-dark
+          :foreground ,purple-bg2  ; normal purple, not the redefine `,purple`
+          :box (:line-width -1 :style pressed-button)))))
    `(mode-line-buffer-id ((t (:foreground ,purple :weight bold))))
    `(sml/global ((t (:foreground ,fg))))
-   `(sml/modes ((t (:foreground ,green :background ,green-light))))
+   `(sml/modes ((t (:foreground ,green :background ,green-bg))))
    `(sml/filename ((t (:foreground ,red))))
    `(sml/folder ((t (:foreground ,fg))))
    `(sml/prefix ((t (:foreground ,fg))))
    `(sml/read-only ((t (:foreground ,fg))))
    `(sml/modified ((t (:foreground ,red :weight bold))))
-   `(sml/outside-modified ((t (:background ,red
-                               :foreground ,red-light :weight bold))))
+   `(sml/outside-modified ((t (:background ,red-bg
+                               :foreground ,red :weight bold))))
    `(sml/line-number ((t (:foreground ,fg :weight bold))))
    `(sml/col-number ((t (:foreground ,fg :weight bold))))
    `(sml/vc ((t (:foreground ,fg :weight bold))))
    `(sml/vc-edited ((t (:foreground ,red :weight bold))))
    `(sml/git ((t (:foreground ,fg :weight bold))))
-;; sh
+   ;; sh
    `(sh-heredoc-face ((t (:foreground ,purple))))
-;; ;;;;; SLIME
-;;    `(slime-repl-output-face ((t (:foreground ,midnight-blue))))
-;;    `(slime-repl-inputed-output-face ((t (:foreground ,wet-asphalt))))
-;;    `(slime-error-face
-;;      ((((supports :underline (:style wave)))
-;;        (:underline (:style wave :color ,alizarin)))
-;;       (t
-;;        (:underline ,alizarin))))
-;;    `(slime-warning-face
-;;      ((((supports :underline (:style wave)))
-;;        (:underline (:style wave :color ,orange)))
-;;       (t
-;;        (:underline ,orange))))
-;;    `(slime-style-warning-face
-;;      ((((supports :underline (:style wave)))
-;;        (:underline (:style wave :color ,sun-flower)))
-;;       (t
-;;        (:underline ,sun-flower))))
-;;    `(slime-note-face
-;;      ((((supports :underline (:style wave)))
-;;        (:underline (:style wave :color ,wisteria)))
-;;       (t
-;;        (:underline ,wisteria))))
-;;    `(slime-highlight-face ((t (:inherit turquoise))))
-;; ;;;;; term
-;;    `(term-color-black ((t (:foreground ,midnight-blue
-;;                                        :background ,midnight-blue))))
-;;    `(term-color-red ((t (:foreground ,pomegranate
-;;                                        :background ,pomegranate))))
-;;    `(term-color-green ((t (:foreground ,nephritis
-;;                                        :background ,nephritis))))
-;;    `(term-color-yellow ((t (:foreground ,orange
-;;                                        :background ,orange))))
-;;    `(term-color-blue ((t (:foreground ,belize-hole
-;;                                       :background ,belize-hole))))
-;;    `(term-color-magenta ((t (:foreground ,wisteria
-;;                                          :background ,wisteria))))
-;;    `(term-color-cyan ((t (:foreground ,green-sea
-;;                                        :background ,green-sea))))
-;;    `(term-color-white ((t (:foreground ,clouds
-;;                                        :background ,clouds))))
-;;    '(term-default-fg-color ((t (:inherit term-color-white))))
-;;    '(term-default-bg-color ((t (:inherit term-color-black))))
+   ;; ;;;;; SLIME
+   ;;    `(slime-repl-output-face ((t (:foreground ,midnight-blue))))
+   ;;    `(slime-repl-inputed-output-face ((t (:foreground ,wet-asphalt))))
+   ;;    `(slime-error-face
+   ;;      ((((supports :underline (:style wave)))
+   ;;        (:underline (:style wave :color ,alizarin)))
+   ;;       (t
+   ;;        (:underline ,alizarin))))
+   ;;    `(slime-warning-face
+   ;;      ((((supports :underline (:style wave)))
+   ;;        (:underline (:style wave :color ,orange)))
+   ;;       (t
+   ;;        (:underline ,orange))))
+   ;;    `(slime-style-warning-face
+   ;;      ((((supports :underline (:style wave)))
+   ;;        (:underline (:style wave :color ,sun-flower)))
+   ;;       (t
+   ;;        (:underline ,sun-flower))))
+   ;;    `(slime-note-face
+   ;;      ((((supports :underline (:style wave)))
+   ;;        (:underline (:style wave :color ,wisteria)))
+   ;;       (t
+   ;;        (:underline ,wisteria))))
+   ;;    `(slime-highlight-face ((t (:inherit turquoise))))
+   ;; ;;;;; term
+   ;;    `(term-color-black ((t (:foreground ,midnight-blue
+   ;;                                        :background ,midnight-blue))))
+   ;;    `(term-color-red ((t (:foreground ,pomegranate
+   ;;                                        :background ,pomegranate))))
+   ;;    `(term-color-green ((t (:foreground ,nephritis
+   ;;                                        :background ,nephritis))))
+   ;;    `(term-color-yellow ((t (:foreground ,orange
+   ;;                                        :background ,orange))))
+   ;;    `(term-color-blue ((t (:foreground ,belize-hole
+   ;;                                       :background ,belize-hole))))
+   ;;    `(term-color-magenta ((t (:foreground ,wisteria
+   ;;                                          :background ,wisteria))))
+   ;;    `(term-color-cyan ((t (:foreground ,green-sea
+   ;;                                        :background ,green-sea))))
+   ;;    `(term-color-white ((t (:foreground ,clouds
+   ;;                                        :background ,clouds))))
+   ;;    '(term-default-fg-color ((t (:inherit term-color-white))))
+   ;;    '(term-default-bg-color ((t (:inherit term-color-black))))
 ;;;;; web-mode
    `(web-mode-builtin-face ((t (:inherit ,font-lock-builtin-face))))
    `(web-mode-comment-face ((t (:inherit ,font-lock-comment-face))))
@@ -605,81 +641,113 @@ Also bind `class' to ((class color) (min-colors 89))."
    `(web-mode-string-face ((t (:inherit ,font-lock-string-face))))
    `(web-mode-type-face ((t (:inherit ,font-lock-type-face))))
    `(web-mode-variable-name-face ((t (:inherit ,font-lock-variable-name-face))))
-   `(web-mode-server-background-face ((t (:background ,green-light))))
+   `(web-mode-server-background-face ((t (:background ,green-bg))))
    `(web-mode-server-comment-face ((t (:inherit web-mode-comment-face))))
    `(web-mode-server-string-face ((t (:foreground ,red))))
    `(web-mode-symbol-face ((t (:inherit font-lock-constant-face))))
    `(web-mode-warning-face ((t (:inherit font-lock-warning-face))))
-   `(web-mode-whitespaces-face ((t (:background ,red-light))))
-   `(web-mode-block-face ((t (:background ,green-light))))
-   `(web-mode-current-element-highlight-face ((t (:foreground ,fg :background ,blue-light))))
-;; ;;;;; whitespace-mode
-;;    `(whitespace-space ((t (:background ,clouds :foreground ,sun-flower))))
-;;    `(whitespace-hspace ((t (:background ,clouds :foreground ,sun-flower))))
-;;    `(whitespace-tab ((t (:background ,carrot))))
-;;    `(whitespace-newline ((t (:foreground ,sun-flower))))
-;;    `(whitespace-trailing ((t (:background ,alizarin))))
-;;    `(whitespace-line ((t (:background nil :foreground ,alizarin))))
-;;    `(whitespace-space-before-tab ((t (:background ,clouds :foreground ,alizarin))))
-;;    `(whitespace-indentation ((t (:background ,clouds :foreground ,sun-flower))))
-;;    `(whitespace-empty ((t (:background ,orange))))
-;;    `(whitespace-space-after-tab ((t (:background ,clouds :foreground ,alizarin))))
+   `(web-mode-whitespaces-face ((t (:background ,red-bg))))
+   `(web-mode-block-face ((t (:background ,green-bg))))
+   `(web-mode-current-element-highlight-face ((t (:foreground ,fg :background ,blue-bg))))
+   ;; ;;;;; whitespace-mode
+   ;;    `(whitespace-space ((t (:background ,clouds :foreground ,sun-flower))))
+   ;;    `(whitespace-hspace ((t (:background ,clouds :foreground ,sun-flower))))
+   ;;    `(whitespace-tab ((t (:background ,carrot))))
+   ;;    `(whitespace-newline ((t (:foreground ,sun-flower))))
+   ;;    `(whitespace-trailing ((t (:background ,alizarin))))
+   ;;    `(whitespace-line ((t (:background nil :foreground ,alizarin))))
+   ;;    `(whitespace-space-before-tab ((t (:background ,clouds :foreground ,alizarin))))
+   ;;    `(whitespace-indentation ((t (:background ,clouds :foreground ,sun-flower))))
+   ;;    `(whitespace-empty ((t (:background ,orange))))
+   ;;    `(whitespace-space-after-tab ((t (:background ,clouds :foreground ,alizarin))))
 ;;;;; which-func-mode
-   `(which-func ((t (:foreground ,purple :background ,purple-light))))
+   `(which-func ((t (:foreground ,purple )))) ; :background ,purple-bg
 ;;;;; yascroll
    `(yascroll:thumb-text-area ((t (:background ,highlight))))
    `(yascroll:thumb-fringe ((t (:background ,bg :foreground ,bg :box (:line-width 1 :style released-button)))))
+
+
+
+   `(eldoc-box-body ((t (:background ,bg-alt))))
+
 ;;;;; Org
    `(org-level-1 ((t (:height 1.3 :weight bold :background ,bg-dark
-                              :family "Sans Serif"
-                              :box (:line-width 1 :style released-button)))))
+                      :family "Sans Serif"
+                      :box (:line-width 1 :style released-button)))))
    `(org-level-2 ((t (:height 1.2 :background ,bg-dark
-                              :box (:line-width 1 :style released-button)))))
+                      :box (:line-width 1 :style released-button)))))
    `(org-level-3 ((t (:height 1.1 :weight bold))))
    `(org-level-4 ((t (:height 1.1 :foreground ,fg-alt-dark :weight bold))))
    `(org-level-5 ((t (:foreground ,fg-alt-dark :weight bold))))
    `(org-level-6 ((t (:foreground ,fg-alt-dark))))
    `(org-level-7 ((t (:foreground ,fg-alt-dark))))
    `(org-level-8 ((t (:foreground ,fg-alt-dark))))
+   `(org-list-dt ((t (:foreground ,fg))))
    `(org-meta-line ((t (:foreground ,green))))
    `(org-document-info ((t (:foreground ,cyan :weight bold))))
    `(org-document-info-keyword ((t (:foreground ,cyan))))
    `(org-document-title ((t (:foreground ,fg :height 1.5 :weight bold :family "Sans Serif" :underline t))))
    `(org-todo ((t (:foreground ,yellow :background ,bg-alt :weight bold
-                               :box (:line-width 1 :style released-button)))))
-   `(org-done ((t (:foreground ,green :background ,green-light :weight bold
-                               :box (:style released-button)))))
+                   :box (:line-width 1 :style released-button)))))
+   `(org-done ((t (:foreground ,green :background ,green-bg :weight bold
+                   :box (:style released-button)))))
    `(org-date ((t (:foreground ,purple))))
    `(org-table ((t (:foreground ,purple))))
    `(org-formula ((t (:foreground ,blue :background ,bg-alt))))
    `(org-code ((t (:foreground ,red :background ,bg-alt))))
-   `(org-verbatim ((t (:foreground ,fg :background ,bg-alt :underline t))))
+   `(org-verbatim ((t (:foreground ,fg :background ,bg-alt)))) ; removed :underline t
    `(org-special-keyword ((t (:foreground ,cyan))))
    `(org-agenda-date ((t (:foreground ,cyan))))
    `(org-agenda-structure ((t (:foreground ,purple))))
-   `(org-block ((t (:foreground ,red))))
+   `(org-block ((t (:foreground "gray24" :background ,bg-alt))))
    `(org-block-background ((t (:background ,bg-alt))))
-   `(org-block-begin-line ((t (:foreground ,fg-alt :background ,bg-dark
-                               :italic t))))
-   `(org-block-end-line ((t (:foreground ,fg-alt :background ,bg-dark
-                             :italic t))))
+   `(org-block-begin-line ((t (:foreground ,fg-alt-dark :underline t :italic t))))
+   `(org-block-end-line ((t (:foreground ,fg-alt-dark  :overline t :italic t))))
+
 ;;;;; Markdown
+   `(markdown-code-face ((t (:background ,bg-alt :extend t))))
    `(markdown-header-face-1 ((t (:height 1.3 :weight bold :background ,bg-dark
-                              :family "Sans Serif"
-                              :box (:line-width 1 :style released-button)))))
+                                 :family "Sans Serif"
+                                 :box (:line-width 1 :style released-button)))))
    `(markdown-header-face-2((t (:height 1.2 :background ,bg-dark
-                              :box (:line-width 1 :style released-button)))))
+                                :box (:line-width 1 :style released-button)))))
    `(markdown-header-face-3 ((t (:height 1.1 :background ,bg-dark :weight normal
-                                         :box (:line-width 1 :style released-button)))))
+                                 :box (:line-width 1 :style released-button)))))
    `(markdown-header-face-4 ((t (:height 1.1 :foreground ,fg-alt-dark :weight bold))))
    `(markdown-header-face-5 ((t (:foreground ,fg-alt-dark :weight bold))))
+   `(markdown-inline-code-face ((t (:inherit font-lock-constant-face))))
+
+
+   `(markdown-ts-code-block ((t(:background ,bg-alt :extend t))))
+   `(markdown-ts-heading-1  ((t (:height 1.3 :weight bold :background ,bg-dark
+                                 :family "Sans Serif"
+                                 :box (:line-width 1 :style released-button)))))
+   `(markdown-ts-heading-2  ((t (:height 1.2 :background ,bg-dark
+                                 :box (:line-width 1 :style released-button)))))
+   `(markdown-ts-heading-3  ((t (:height 1.1 :background ,bg-dark :weight normal
+                                 :box (:line-width 1 :style released-button)))))
+   `(markdown-ts-heading-4  ((t (:height 1.1 :foreground ,fg-alt-dark :weight bold))))
+   `(markdown-ts-heading-5  ((t (:foreground ,fg-alt-dark :weight bold))))
+   `(markdown-ts-code-span ((t  (:inherit font-lock-constant-face))))
+
+
+;;;;; ReST
+   `(rst-level-1 ((t (:height 1.3 :weight bold :background ,bg-dark
+                      :box (:line-width 1 :style released-button)))))
+   `(rst-level-2((t (:height 1.2 :background ,bg-dark
+                     :box (:line-width 1 :style released-button)))))
+   `(rst-level-3 ((t (:height 1.1 :background ,bg-dark :weight normal
+                      :box (:line-width 1 :style released-button)))))
+   `(rst-level-4 ((t (:height 1.1 :foreground ,fg-alt-dark :weight bold))))
+   `(rst-level-5 ((t (:foreground ,fg-alt-dark :weight bold))))
+
 ;;;;; origami
-   `(origami-fold-replacement-face ((t (:foreground ,red :background ,red-light
-                                                    :box (:line-width -1)))))
+   `(origami-fold-replacement-face ((t (:foreground ,red :background ,red-bg
+                                        :box (:line-width -1)))))
 ;;;;; mu4e, mail
    `(mu4e-header-highlight-face ((t (:background ,highlight))))
    `(mu4e-unread-face ((t (:foreground ,blue :weight bold))))
-   `(mu4e-flagged-face ((t (:foreground ,red :background ,red-light :weight bold))))
+   `(mu4e-flagged-face ((t (:foreground ,red :background ,red-bg :weight bold))))
    `(mu4e-compose-separator-face ((t (:foreground ,green))))
    `(mu4e-header-value-face ((t (:foreground ,fg))))
    `(message-header-name ((t (:foreground ,purple :weight bold))))
@@ -696,14 +764,12 @@ Also bind `class' to ((class color) (min-colors 89))."
 ;;;;; ansi-color
    ;;`(ansi-color-names-vector [,clouds ,alizarin ,emerald ,sun-flower
    ;;                                       ,peter-river ,amethyst ,turquoise ,midnightblue])
-;;;;; fill-column-indicator
-   `(fci-rule-color ,yellow-light)
 ;;;;; highlight-parentheses
    `(hl-paren-colors '(,purple ,blue ,red))
-   `(hl-paren-background-colors '(,purple-light ,blue-light ,red-light))
+   `(hl-paren-background-colors '(,purple-bg ,blue-bg ,red-bg))
 ;;;;; sml-mode-line
    `(sml/active-foreground-color ,fg)
-   `(sml/active-background-color ,cyan-light)
+   `(sml/active-background-color ,cyan-bg)
    `(sml/inactive-foreground-color ,fg)
    `(sml/inactive-background-color ,cyan)
 ;;;;; vc-annotate
