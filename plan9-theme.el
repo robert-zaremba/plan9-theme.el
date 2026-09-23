@@ -649,10 +649,11 @@ Also bind `class' to ((class color) (min-colors 89))."
    `(web-mode-whitespaces-face ((t (:background ,red-bg))))
    `(web-mode-block-face ((t (:background ,green-bg))))
    `(web-mode-current-element-highlight-face ((t (:foreground ,fg :background ,blue-bg))))
+
    ;; ;;;;; whitespace-mode
    ;;    `(whitespace-space ((t (:background ,clouds :foreground ,sun-flower))))
    ;;    `(whitespace-hspace ((t (:background ,clouds :foreground ,sun-flower))))
-   ;;    `(whitespace-tab ((t (:background ,carrot))))
+   `(whitespace-tab ((t (:foreground ,gray-bg0))))
    ;;    `(whitespace-newline ((t (:foreground ,sun-flower))))
    ;;    `(whitespace-trailing ((t (:background ,alizarin))))
    ;;    `(whitespace-line ((t (:background nil :foreground ,alizarin))))
